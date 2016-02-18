@@ -1,0 +1,39 @@
+//----------------------------------------------
+//            NGUI: Next-Gen UI kit
+// Copyright © 2011-2013 Tasharen Entertainment
+//----------------------------------------------
+
+using UnityEngine;
+using UnityEditor;
+
+[CanEditMultipleObjects]
+[CustomEditor(typeof(UIRoot))]
+public class UIRootEditor : Editor
+{
+	public override void OnInspectorGUI ()
+	{
+		serializedObject.Update();
+
+		SerializedProperty sp = NGUIEditorTools.DrawProperty("Scaling Style", serializedObject, "scalingStyle");
+
+		UIRoot.Scaling scaling = (UIRoot.Scaling)sp.intValue;
+		if (scaling == UIRoot.Scaling.FixedWidth)
+		{
+			NGUIEditorTools.DrawProperty("Resolution Scale", serializedObject, "ResolutionScale");
+			NGUIEditorTools.DrawProperty("Manual Width", serializedObject, "manualWidth");
+			NGUIEditorTools.DrawProperty("Minimun Width", serializedObject, "minimumWidth");
+			NGUIEditorTools.DrawProperty("Maximum Width", serializedObject, "maximumWidth");
+		}
+		if (scaling != UIRoot.Scaling.PixelPerfect)
+		{
+			NGUIEditorTools.DrawProperty("Manual Height", serializedObject, "manualHeight");
+		}
+
+		if (scaling != UIRoot.Scaling.FixedSize)
+		{
+			NGUIEditorTools.DrawProperty("Minimum Height", serializedObject, "minimumHeight");
+			NGUIEditorTools.DrawProperty("Maximum Height", serializedObject, "maximumHeight");
+		}
+		serializedObject.ApplyModifiedProperties();
+	}
+}
